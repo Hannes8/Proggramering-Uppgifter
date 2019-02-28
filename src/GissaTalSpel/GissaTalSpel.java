@@ -12,10 +12,11 @@ public class GissaTalSpel {
 
 		// deklarerar en integer som räknar antalet gissningar
 		int antalgissningar = 0;
-		// deklarerar en boolean som ger möjligheten att köra om spelet efteråt
+	
 
 		while (true) {
 
+			// tilldelar variabeln värdet 0 så att antalet gissningar återställs om man vill köra programmet igen
 			antalgissningar = 0;
 
 			System.out.println("Välkommen till gissa talet!");
