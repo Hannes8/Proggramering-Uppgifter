@@ -5,9 +5,9 @@ public class SecureDoors {
 	public static void main(String[] args) {
 
 		Scanner input = new Scanner(System.in);
-// En list som
+// Arraylist som har reda på outputen
 		ArrayList<String> EmployeeList = new ArrayList<>();
-// En lista som kollar vilka som är inuti byggnaden 
+// Arraylist som kollar vilka som är inne i byggnaden 
 		ArrayList<String> EmployeesInsideBuilding = new ArrayList<>();
 
 		System.out.println("Amount of entrys or exits - (1-1000)");
@@ -24,6 +24,8 @@ public class SecureDoors {
 		}
 
 		System.out.println("Input:");
+		System.out.println(
+				"Input entry, exit and a name with up to 20 letters! Remember uppercase on the first letter in the name!");
 
 		String status = input.nextLine();
 
@@ -31,14 +33,14 @@ public class SecureDoors {
 			status = input.nextLine();
 
 			// kollar så att inputen startar med exit eller entry och så att namnet börjar
-			// med stor bokstav
-			if (status.startsWith("entry") && Character.isUpperCase(status.charAt(6))
-					|| (status.startsWith("exit")) && Character.isUpperCase(status.charAt(5)))  {
+			// med stor bokstav och så att namnet inte är längre än 20 bokstäver
+			if (status.startsWith("entry") && Character.isUpperCase(status.charAt(6)) && status.length() <= 26
+					|| status.startsWith("exit") && Character.isUpperCase(status.charAt(5)) && status.length() <= 25) {
 
 				// tar entry stringsen och tar bort entry
 				if (status.contains("entry")) {
 					status = status.replaceAll("entry ", "");
-					// har en arraylist som kollar vilka personer som är inuti byggnaden
+					// Lägger till personerna som går in i byggnaden i en arraylist
 					EmployeesInsideBuilding.add(status);
 					// lägger till entered
 					status = status + " entered";
@@ -57,6 +59,7 @@ public class SecureDoors {
 					// tar bort exit
 					status = status.replaceAll("exit ", "");
 					if (EmployeesInsideBuilding.contains(status)) {
+						// tar bort personen från arraylisten när de lämnar byggnaden
 						EmployeesInsideBuilding.remove(status);
 						status = status + " exited";
 						EmployeeList.add(status);
@@ -69,13 +72,16 @@ public class SecureDoors {
 					}
 
 				}
-			} else {
+			}
+			// Om inputen inte när vilkoren så skrivs enter ut och loopen ökar med en till
+			// iteration
+			else {
 				System.out.println("error");
 				amount++;
 			}
 
 		}
-
+		// skriver ut listan efter loopen är klar
 		for (int i = 0; i < EmployeeList.size(); i++) {
 			System.out.println(EmployeeList.get(i));
 		}
