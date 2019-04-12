@@ -10,6 +10,7 @@ public class Hangclass_metoder {
 	static Scanner input = new Scanner(System.in);
 	static int val = 0;
 
+//
 	static String[] svenskaordlätt = { "Potatis", "Korv", "Kött", "Bil", "Gul", "Röd", "Grön", "Bröd", "Dator", "Löv",
 			"Grus", "Bus", "Buss", "Säng", "Telefon", "Skidor" };
 
@@ -32,25 +33,23 @@ public class Hangclass_metoder {
 
 	static ArrayList<Character> gissadebokstäver = new ArrayList<Character>();
 
-	static String ord = "";
+	static String ord;
+
+	static String rättbokstäver = "";
 
 	// Skapar ett objekt av den classen med det grafiska
 	static Grafiskt_hangman grafisktobjekt = new Grafiskt_hangman();
 
 	public static void main(String[] args) {
-
 		while (true) {
 			grafisktobjekt.grafiskt(5);
-			
-			//svårhetsgrad
-			System.out.println(ord);
-			
+
 			// om spelaren vill spela själv
 			if (Typavspel() == 1) {
 				// tilldelar stringen "ord" ett slumpat ord från svenskaord arrayen eller
 				// engelska ord arrayen med den svårhetsgraden som är vald
-				ord = slumparord(väljspråk(),svårhetsgrad());
-			System.out.println(ord);
+				ord = slumparord(väljspråk(), svårhetsgrad());
+				System.out.println(ord);
 			}
 			// om spelaren väljer två spelare
 			else {
@@ -58,10 +57,25 @@ public class Hangclass_metoder {
 				ord = Väljegetord();
 
 			}
+
+			stringtillchars();
+
 			// loop som körs tills spelet är klart, ordet är gissat eller spelaren har
 			// gissat för många fel
 			while (true) {
+				gissa();
 
+				if (ordet.size() == 0) {
+					System.out.println("Grattis du vann!");
+
+					break;
+				}
+
+			}
+			// om spelaren inte vill spela mer så bryts den ytre while loopen och programet
+			// avslutas
+			if (spelaigen() == 2) {
+				break;
 			}
 
 		}
@@ -110,6 +124,7 @@ public class Hangclass_metoder {
 		}
 	}
 
+// metod som väljer svårhetsgraden 
 	public static int svårhetsgrad() {
 		while (true) {
 			System.out.println("Vilken svårhetsgrad vill du köra på?");
@@ -129,6 +144,7 @@ public class Hangclass_metoder {
 				return val;
 
 			default:
+				System.out.println("error");
 				break;
 
 			}
@@ -137,25 +153,36 @@ public class Hangclass_metoder {
 
 	}
 
-	// metod som tar in vilket språk det är och slumpar ett ord från en av arrayerna
-	// med ord
+	// metod som tar in vilket språk det är och vilken svårhetsgrad och slumpar ett
+	// ord från en av arrayerna med ord
 	public static String slumparord(int språk, int svårhetsgrad) {
+		// initierar int random
 		int random;
 		// om svenska är valt
 		if (språk == 1) {
+			// switchcase som väljer beroende på vilken svårhetsgrad som är vald
 			switch (svårhetsgrad) {
-			// lätt
+
 			case 1:
-				random = (int) (Math.random() * svenskaordlätt.length + 1);
+				// int random blir ett random tal mellan 0 till antalet ord i arrayen
+				// svenskaordlätt
+				random = (int) (Math.random() * svenskaordlätt.length);
+				// stringen ord blir ett ord från arrayen svenskaordlätt med indexen från int
+				// random
 				ord = svenskaordlätt[random];
-				// medel
+				break;
+			// lätt
 			case 2:
 				random = (int) (Math.random() * svenskaordmedel.length + 1);
 				ord = svenskaordmedel[random];
-				// svårt
+				break;
+			// medel
 			case 3:
 				random = (int) (Math.random() * svenskaordsvårt.length + 1);
 				ord = svenskaordsvårt[random];
+				break;
+
+			// svårt
 			}
 
 			// engelska ord
@@ -164,14 +191,17 @@ public class Hangclass_metoder {
 			case 1:
 				random = (int) (Math.random() * engelskaordlätt.length + 1);
 				ord = engelskaordlätt[random];
+				break;
 
 			case 2:
 				random = (int) (Math.random() * engelskaordmedel.length + 1);
 				ord = engelskaordmedel[random];
+				break;
 
 			case 3:
 				random = (int) (Math.random() * engelskaordsvårt.length + 1);
 				ord = engelskaordsvårt[random];
+				break;
 
 			}
 
@@ -179,14 +209,18 @@ public class Hangclass_metoder {
 		return ord;
 	}
 
+// Metod för två spelare, en av spelarna väljer själv ett ord
 	public static String Väljegetord() {
 		val = 2;
+		// loopar metoden
 		while (true) {
+			// Frågar frågan igen om spelaren valde fel ord
 			if (val == 2) {
 				System.out.println("Välj ett ord som den andra spelaren ska försöka gissa!");
+				// stringen Ord blir spelarens input
 				ord = input.next();
 			}
-
+// frågar om spelaren är säker på att hen vill använda ordet.
 			System.out.println("Är du säker på att du vill använda " + ord + " som ditt ord?"); // "ord"
 			System.out.println("-1-  Ja");
 			System.out.println("-2-  Nej");
@@ -205,8 +239,34 @@ public class Hangclass_metoder {
 
 	}
 
+	// Metod som tar ordet och lägger in alla bokstäver i arraylisten ordet
+	public static void stringtillchars() {
+		for (int i = 0; i < ord.length(); i++) {
+			ordet.add(ord.charAt(i));
+		}
+		System.out.println(ordet);
+
+	}
+
+	public static void rättgissadebokstäver(char rättgissadbokstav) {
+
+		for (int i = 0; i < ord.length(); i++) {
+			if (ord.charAt(i) == (rättgissadbokstav)) {
+
+				rättbokstäver = rättbokstäver + rättgissadbokstav;
+			} else {
+				rättbokstäver = rättbokstäver + "?";
+			}
+
+		}
+	}
+
 	public static void gissa() {
+
 		grafisktobjekt.grafiskt(antalfelgissningar);
+
+		rättgissadebokstäver('e');
+		System.out.println(rättbokstäver);
 
 		if (gissadebokstäver.size() >= 1) {
 			System.out.println("Du har gissat på:" + gissadebokstäver);
@@ -214,17 +274,39 @@ public class Hangclass_metoder {
 
 		System.out.println("Gissa på en bokstav eller gissa på ordet!");
 		char gissning = input.next().charAt(0);
-		
-		if (ordet.contains(gissning)){
-			ordet.remove(gissning);
-			
-		}
-		else {
+
+		if (ordet.contains(gissning)) {
+			System.out.println("Du gissade rätt!");
+			ordet.remove(new Character(gissning));
+			rättgissadebokstäver(gissning);
+		} else {
 			System.out.println("Du gissade fel!");
 			antalfelgissningar++;
 			gissadebokstäver.add(gissning);
 		}
-		
+
+	}
+
+	public static int spelaigen() {
+		while (true) {
+			System.out.println("Vill du spela igen?");
+			System.out.println("-1-  Ja");
+			System.out.println("-2-  Nej");
+			val = input.nextInt();
+			switch (val) {
+			case 1:
+				return val;
+
+			case 2:
+				System.out.println("Tack för att du spelat!");
+				return val;
+
+			default:
+				System.out.println("Error");
+
+			}
+		}
+
 	}
 
 }
