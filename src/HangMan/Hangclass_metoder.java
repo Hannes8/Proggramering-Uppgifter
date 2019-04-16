@@ -36,13 +36,14 @@ public class Hangclass_metoder {
 	static String ord;
 
 	static String rättbokstäver = "";
+	
+	static char[] rättbokstäverchar;
 
 	// Skapar ett objekt av den classen med det grafiska
 	static Grafiskt_hangman grafisktobjekt = new Grafiskt_hangman();
 
 	public static void main(String[] args) {
 		while (true) {
-			grafisktobjekt.grafiskt(5);
 
 			// om spelaren vill spela själv
 			if (Typavspel() == 1) {
@@ -58,16 +59,23 @@ public class Hangclass_metoder {
 
 			}
 
+			ord = ord.toUpperCase();
 			stringtillchars();
+			rättgissadebokstäverstring();
 
 			// loop som körs tills spelet är klart, ordet är gissat eller spelaren har
 			// gissat för många fel
 			while (true) {
 				gissa();
+				grafisktobjekt.grafiskt(antalfelgissningar);
 
 				if (ordet.size() == 0) {
+					System.out.println(rättbokstäver);
 					System.out.println("Grattis du vann!");
 
+					break;
+				}
+				if (antalfelgissningar == 9) {
 					break;
 				}
 
@@ -77,7 +85,9 @@ public class Hangclass_metoder {
 			if (spelaigen() == 2) {
 				break;
 			}
-
+			// om spelaren väljer att spela igen så körs reset metoden och sedan körs
+			// programet om igen
+			reset();
 		}
 	}
 
@@ -248,43 +258,75 @@ public class Hangclass_metoder {
 
 	}
 
+	public static void rättgissadebokstäverstring() {
+		for (int i = 0; i < ord.length(); i++) {
+			rättbokstäver = rättbokstäver + "?";
+
+		}
+
+	}
+
+	// metod som visar de rätt bokstäver som är rätt gissade i ordet
 	public static void rättgissadebokstäver(char rättgissadbokstav) {
 
-		for (int i = 0; i < ord.length(); i++) {
-			if (ord.charAt(i) == (rättgissadbokstav)) {
+		// gör om stringen rättbokstäver till en char array så det går att förändra
+		// bokstäverna
+		char[] rättbokstäverchar = rättbokstäver.toCharArray();
 
-				rättbokstäver = rättbokstäver + rättgissadbokstav;
-			} else {
-				rättbokstäver = rättbokstäver + "?";
+		// loopar med längden av ordet
+		for (int i = 0; i < ord.length(); i++) {
+// om den gissade bokstaven är lika med den bokstaven på indexet i i loopen så byter char arrayen ut från ett ? till rätt bokstav
+			if (ord.charAt(i) == (rättgissadbokstav)) {
+				rättbokstäverchar[i] = rättgissadbokstav;
+
 			}
 
 		}
+		// stringen rättbokstäver får värdet av charsen i arrayen rättbokstäverchar
+		rättbokstäver = String.valueOf(rättbokstäverchar);
 	}
 
 	public static void gissa() {
 
-		grafisktobjekt.grafiskt(antalfelgissningar);
-
-		rättgissadebokstäver('e');
 		System.out.println(rättbokstäver);
 
 		if (gissadebokstäver.size() >= 1) {
 			System.out.println("Du har gissat på:" + gissadebokstäver);
 		}
-
 		System.out.println("Gissa på en bokstav eller gissa på ordet!");
-		char gissning = input.next().charAt(0);
+		String gissningen = input.next();
 
-		if (ordet.contains(gissning)) {
-			System.out.println("Du gissade rätt!");
-			ordet.remove(new Character(gissning));
-			rättgissadebokstäver(gissning);
-		} else {
-			System.out.println("Du gissade fel!");
-			antalfelgissningar++;
-			gissadebokstäver.add(gissning);
+		if (gissningen.length() == 1) {
+			char gissning = gissningen.charAt(0);
+			gissning = Character.toUpperCase(gissning);
+			if (gissadebokstäver.contains(gissning)) {
+				System.out.println("Du har redan gissat på " + gissning);
+				return;
+			}
+
+			if (ordet.contains(gissning)) {
+				System.out.println("Du gissade rätt!");
+				ordet.remove(new Character(gissning));
+				rättgissadebokstäver(gissning);
+			} else {
+				System.out.println("Du gissade fel!");
+				antalfelgissningar++;
+				gissadebokstäver.add(gissning);
+			}
+
 		}
+		// om gissningen är längre än en bokstav så kollas det om det är rätt ord
+		else {
+			if (gissningen.equalsIgnoreCase(ord)) {
+			ordet.clear();
+			rättbokstäver=ord;
 
+			} else {
+				antalfelgissningar++;
+
+			}
+
+		}
 	}
 
 	public static int spelaigen() {
@@ -295,6 +337,7 @@ public class Hangclass_metoder {
 			val = input.nextInt();
 			switch (val) {
 			case 1:
+				reset();
 				return val;
 
 			case 2:
@@ -307,6 +350,19 @@ public class Hangclass_metoder {
 			}
 		}
 
+	}
+
+	public static void reset() {
+
+		ordet.clear();
+
+		gissadebokstäver.clear();
+
+		String ord = "";
+
+		rättbokstäver = "";
+
+		antalfelgissningar = 0;
 	}
 
 }
