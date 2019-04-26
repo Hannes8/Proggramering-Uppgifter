@@ -1,6 +1,7 @@
 package HangMan;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
@@ -36,7 +37,7 @@ public class Hangclass_metoder {
 	static String ord;
 
 	static String rättbokstäver = "";
-	
+
 	static char[] rättbokstäverchar;
 
 	// Skapar ett objekt av den classen med det grafiska
@@ -50,7 +51,9 @@ public class Hangclass_metoder {
 				// tilldelar stringen "ord" ett slumpat ord från svenskaord arrayen eller
 				// engelska ord arrayen med den svårhetsgraden som är vald
 				ord = slumparord(väljspråk(), svårhetsgrad());
-				System.out.println(ord);
+
+				// ska kunna gå tillbacka i programet , gör det till en start metod
+
 			}
 			// om spelaren väljer två spelare
 			else {
@@ -76,8 +79,11 @@ public class Hangclass_metoder {
 					break;
 				}
 				if (antalfelgissningar == 9) {
+					System.out.println("Ordet var " + ord);
 					break;
 				}
+
+				// två bokstäver, vinner inte
 
 			}
 			// om spelaren inte vill spela mer så bryts den ytre while loopen och programet
@@ -91,15 +97,36 @@ public class Hangclass_metoder {
 		}
 	}
 
+	/**
+	 * Välkommnar spelaren och frågar om spelaren vill spela ensam eller som två
+	 * spelare
+	 * 
+	 * ger tillbaks om det är en spelare(1) eller två spelare(2)
+	 */
 	public static int Typavspel() {
+
 		System.out.println("Välkomen till hänga gubbe!");
 		System.out.println("regler");
-		System.out.println("Vill du spela ensam eller som två spelare?");
-		System.out.println("-1-  Ensam");
-		System.out.println("-2-  Två spelare");
-
+		// loopar outputen så spelaren kan se alternativen igen om de skriver in fel
 		while (true) {
-			int val = input.nextInt();
+
+			while (true) {
+				System.out.println("Vill du spela ensam eller som två spelare?");
+				System.out.println("-1-  Ensam");
+				System.out.println("-2-  Två spelare");
+				// loopar medans validinput är false
+
+				// kollar om inputen är en siffra i try, om det inte är det så körs catch
+				try {
+					val = input.nextInt();
+					break;
+					//
+				} catch (InputMismatchException e) {
+					System.out.println("Skirv in ett nummer!");
+					input.next();
+				}
+			}
+
 			switch (val) {
 			case 1:
 				return val;
@@ -107,20 +134,35 @@ public class Hangclass_metoder {
 				return val;
 			default:
 				System.out.println("error");
-				break;
+
 			}
 		}
 
 	}
 
-	// metod som väljer språk
+	/**
+	 * 
+	 * Hello
+	 * 
+	 * @return
+	 */
 	public static int väljspråk() {
-		System.out.println("Vilket språk vill du köra med?");
-		System.out.println("-1-  Svenska");
-		System.out.println("-2-  Engelska");
-
 		while (true) {
-			val = input.nextInt();
+
+			while (true) {
+				System.out.println("Vilket språk vill du köra med?");
+				System.out.println("-1-  Svenska");
+				System.out.println("-2-  Engelska");
+
+				try {
+					val = input.nextInt();
+					break;
+				} catch (InputMismatchException e) {
+					System.out.println("Skriv in antingen 1 eller 2!");
+					input.next();
+				}
+			}
+
 			switch (val) {
 			case 1:
 				return val;
@@ -128,8 +170,9 @@ public class Hangclass_metoder {
 			case 2:
 				return val;
 			default:
-				System.out.println("error");
+				System.out.println("Skriv in antingen 1 eller 2!");
 				break;
+
 			}
 		}
 	}
@@ -137,30 +180,43 @@ public class Hangclass_metoder {
 // metod som väljer svårhetsgraden 
 	public static int svårhetsgrad() {
 		while (true) {
-			System.out.println("Vilken svårhetsgrad vill du köra på?");
-			System.out.println("-1-  Lätt");
-			System.out.println("-2-  Medelsvårt");
-			System.out.println("-3-  Svårt");
-			val = input.nextInt();
+			while (true) {
+				System.out.println("Vilken svårhetsgrad vill du köra på?");
+				System.out.println("-1-  Lätt");
+				System.out.println("-2-  Medelsvårt");
+				System.out.println("-3-  Svårt");
 
+				try {
+					val = input.nextInt();
+					break;
+				} catch (InputMismatchException e) {
+					System.out.println("Skriv in antigen 1,2 eller 3!");
+					input.next();
+				}
+
+			}
 			switch (val) {
 			case 1:
+				System.out.println("Hänga gubbe på lätt svårhetsgrad startar nu!");
+				System.out.println("Lycka till");
 				return val;
 
 			case 2:
+				System.out.println("Hänga gubbe på medel svårhetsgrad startar nu!");
+				System.out.println("Lycka till");
 				return val;
 
 			case 3:
+				System.out.println("Hänga gubbe på svår svårhetsgrad startar nu!");
+				System.out.println("Lycka till");
 				return val;
 
 			default:
-				System.out.println("error");
+				System.out.println("Skriv in antigen 1,2 eller 3!");
 				break;
 
 			}
-
 		}
-
 	}
 
 	// metod som tar in vilket språk det är och vilken svårhetsgrad och slumpar ett
@@ -254,7 +310,6 @@ public class Hangclass_metoder {
 		for (int i = 0; i < ord.length(); i++) {
 			ordet.add(ord.charAt(i));
 		}
-		System.out.println(ordet);
 
 	}
 
@@ -318,8 +373,8 @@ public class Hangclass_metoder {
 		// om gissningen är längre än en bokstav så kollas det om det är rätt ord
 		else {
 			if (gissningen.equalsIgnoreCase(ord)) {
-			ordet.clear();
-			rättbokstäver=ord;
+				ordet.clear();
+				rättbokstäver = ord;
 
 			} else {
 				antalfelgissningar++;
@@ -327,14 +382,28 @@ public class Hangclass_metoder {
 			}
 
 		}
+		// gör mellanrum i konsolen efter varje gissning så det ser bättre ut
+		mellanrum();
 	}
 
 	public static int spelaigen() {
 		while (true) {
-			System.out.println("Vill du spela igen?");
-			System.out.println("-1-  Ja");
-			System.out.println("-2-  Nej");
-			val = input.nextInt();
+			while (true) {
+				System.out.println("Vill du spela igen?");
+				System.out.println("-1-  Ja");
+				System.out.println("-2-  Nej");
+
+
+				try {
+					val = input.nextInt();
+					break;
+					//
+				} catch (InputMismatchException e) {
+					System.out.println("Skirv in antingen 1 eller 2!");
+					input.next();
+				}
+			}
+
 			switch (val) {
 			case 1:
 				reset();
@@ -345,9 +414,17 @@ public class Hangclass_metoder {
 				return val;
 
 			default:
-				System.out.println("Error");
+				System.out.println("Skriv in antigen 1 eller 2!");
 
 			}
+		}
+
+	}
+
+	public static void mellanrum() {
+		for (int i = 0; i < 20; i++) {
+			System.out.println("");
+
 		}
 
 	}
