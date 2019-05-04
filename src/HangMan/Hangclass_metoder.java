@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-
 public class Hangclass_metoder {
 	// antal fel gissningar från spelaren
 	static int antalfelgissningar = 0;
-	//
+	// Scanner
 	static Scanner input = new Scanner(System.in);
 	// variabel för alla val i programmet
 	static int val = 0;
@@ -17,20 +15,20 @@ public class Hangclass_metoder {
 // array lists med alla orden i de olika svårhetsgraderna
 
 	static String[] svenskaordlätt = { "Potatis", "Korv", "Kött", "Bil", "Gul", "Röd", "Grön", "Bröd", "Dator", "Löv",
-			"Grus", "Bus", "Buss", "Säng", "Telefon", "Skidor" };
+			"Grus", "Bus", "Buss", "Säng", "Telefon", "Skidor","Tiger","Katt","Groda","Haj","Majs" };
 
 	static String[] svenskaordmedel = { "Toaletter", "Pizzasås", "Telefonskal", "Skridskor", "Bordtennis", "Björn",
-			"Lejon", "Öra" };
+			"Lejon", "Öra","Åsna","Zoo", "Björk" };
 
 	static String[] svenskaordsvårt = { "Nationalencyklopedin", "Vispgrädde", "Ukulele", "Flaggstångsknoppsmålare",
 			"nordvästersjökustartilleriflygspaningssimulatoranläggningsmaterielunderhållsuppföljningssystemdiskussionsinläggsförberedelsearbeten",
-			"Yxa" };
+			"Yxa","Örn" };
 
 	static String[] engelskaordlätt = { "Car", "Fart", "Yellow", "Rain", "Train", "Cloud", "Water", "Milk", "Hello",
-			"Hi", "Potato", "Carrot", "Bot", "Lime", "Bannana", };
+			"Hi", "Potato", "Carrot", "Bot", "Lime", "Bannana", "Brain", "Horse" };
 
 	static String[] engelskaordmedel = { "Chocolate", "Garlic", "Shark", "fjord", "rhubarb", "phlegm", "twelfth",
-			"syndrome" };
+			"syndrome", "Eleven", "Belt", "Iron", "Anvil" };
 
 	static String[] engelskaordsvårt = { "Difficult", "Bagpipes", "Dwarves", "Ivory", "Zombie", "Swivel", "Oxygen",
 			"Unzip", "Quad", "Fishhook", "Rhythmic", "giaour" };
@@ -137,6 +135,8 @@ public class Hangclass_metoder {
 		mellanrum();
 
 		System.out.println("Välkomen till hänga gubbe!");
+		System.out.println("Alla ord innehåller bara bokstäver och inga mellanslag!");
+		System.out.println("Du har totalt 9 liv!");
 		// loopar outputen så spelaren kan se alternativen igen om de skriver in fel
 		while (true) {
 
@@ -240,6 +240,7 @@ public class Hangclass_metoder {
 				System.out.println("-2-  Medelsvårt");
 				System.out.println("-3-  Svårt");
 
+				// testar om det är en int
 				try {
 					val = input.nextInt();
 					break;
@@ -357,58 +358,54 @@ public class Hangclass_metoder {
 			System.out.println("Välj ett ord som den andra spelaren ska försöka gissa!");
 			// stringen Ord blir spelarens input
 			ord = input.next();
-			
-		
-				if (!ord.matches(".*\\d.*")) {
-					
-				
-			
+
+			// kollar om inputen bara är bokstäver
+			if (intebokstäver(ord) == false) {
 
 // frågar om spelaren är säker på att hen vill använda ordet.
-			while (true) {
 				while (true) {
-					System.out.println("Är du säker på att du vill använda " + ord + " som ditt ord?"); // "ord"
-					System.out.println("-1-  Ja");
-					System.out.println("-2-  Nej");
-					// kollar om inputen är en siffra
-					try {
-						val = input.nextInt();
+					while (true) {
+						System.out.println("Är du säker på att du vill använda " + ord + " som ditt ord?"); // "ord"
+						System.out.println("-1-  Ja");
+						System.out.println("-2-  Nej");
+						// kollar om inputen är en siffra
+						try {
+							val = input.nextInt();
+							break;
+						} catch (InputMismatchException e) {
+							mellanrum();
+							System.out.println("error");
+							System.out.println("Skriv in antigen 1 eller 2!");
+							input.next();
+						}
+					}
+
+					switch (val) {
+					case 1:
+						mellanrum();
+						System.out.println("Spelet startar nu!");
+						return ord;
+
+					case 2:
 						break;
-					} catch (InputMismatchException e) {
+					default:
 						mellanrum();
 						System.out.println("error");
 						System.out.println("Skriv in antigen 1 eller 2!");
-						input.next();
+
+						// inte siffror i ordet
+
 					}
+					if (val == 2)
+						break;
+
 				}
-
-				switch (val) {
-				case 1:
-					mellanrum();
-					System.out.println("Spelet startar nu!");
-					return ord;
-
-				case 2:
-					break;
-				default:
-					mellanrum();
-					System.out.println("error");
-					System.out.println("Skriv in antigen 1 eller 2!");
-					
-					// inte siffror i ordet
-					
-				}
-				if (val == 2)
-					break;
-
+			} else {
+				mellanrum();
+				System.out.println("error");
+				System.out.println("Skirv bara in bokstäver");
 			}
-				}
-				else {
-					mellanrum();
-					System.out.println("error");
-					System.out.println("Skirv bara in bokstäver");
-				}
-				
+
 		}
 	}
 
@@ -426,6 +423,10 @@ public class Hangclass_metoder {
 
 	}
 
+	/**
+	 * 
+	 * loopar längden av ordet och ger så många ? till rättbokstäver
+	 */
 	public static void rättgissadebokstäverstring() {
 		for (int i = 0; i < ord.length(); i++) {
 			rättbokstäver = rättbokstäver + "?";
@@ -434,7 +435,11 @@ public class Hangclass_metoder {
 
 	}
 
-	// metod som visar de rätt bokstäver som är rätt gissade i ordet
+	/**
+	 * metod som visar de rätt bokstäver som är rätt gissade i ordet
+	 * 
+	 * @param rättgissadbokstav
+	 */
 	public static void rättgissadebokstäver(char rättgissadbokstav) {
 
 		// gör om stringen rättbokstäver till en char array så det går att förändra
@@ -470,25 +475,17 @@ public class Hangclass_metoder {
 		}
 		System.out.println("Gissa på en bokstav eller gissa på ordet!");
 		String gissningen = input.next();
- 
+
 		// boolean som kontrollerar om gissningen är en bokstav
-		boolean ärgissningenintebokstav = false;
+		boolean ärgissningenintebokstav = intebokstäver(gissningen);
 
-		// gör om gissningen till char array för att kolla om det bara är bokstäver
-		char[] gissningsomchar = gissningen.toCharArray();
-
-		// loopar igenom arrayen och om det inte är en bokstav så blir boolean
-		// ärgissningenintebokstav true
-		for (int i = 0; i < gissningsomchar.length; i++) {
-			if (!Character.isLetter(gissningsomchar[i])) {
-				ärgissningenintebokstav = true;
+		if (språkengelska == true) {
+			// om gissningen innehåller ÅÄÖ så avbruts metoden
+			if (gissningen.toUpperCase().matches(".*[ÅÄÖ].*")) {
+				mellanrum();
+				System.out.println("Bara bokstäver i det engelska alfabetet är tillåtet!");
+				return;
 			}
-		}
-		// om gissningen innehåller ÅÄÖ så avbruts metoden
-		if (gissningen.toUpperCase().matches(".*[ÅÄÖ].*")) {
-			mellanrum();
-			System.out.println("Bara bokstäver i det engelska alfabetet är tillåtet!");
-			return;
 		}
 		// gissningen räknas bara om det bara är bokstäver
 		if (ärgissningenintebokstav == false) {
@@ -501,23 +498,13 @@ public class Hangclass_metoder {
 				// om spelaren redan har gissat på bokstaven
 
 				// om spelet är på engelska så kan man inte gissa på Å,Ä,Ö
-				if (språkengelska == true) {
-
-					
-					for (int i = 0; i < gissningen.length(); i++) {
-						if (gissningen.charAt(i) == 'Ö') {
-							System.out.println("Bara bokstäver i det engelska alfabetet är tillåtet!");
-							return;
-						}
-					}
-
-				}
 
 				if (gissadebokstäver.contains(gissning) || rättbokstäver.contains(gissningen.toUpperCase())) {
 					System.out.println("Du har redan gissat på " + gissning);
 					return;
 				}
 
+				// om ordet innehåller gissningen
 				if (ordet.contains(gissning)) {
 					// gör mellanrum i konsolen efter varje gissning så det ser bättre ut
 					mellanrum();
@@ -544,12 +531,19 @@ public class Hangclass_metoder {
 					ordet.clear();
 					rättbokstäver = ord;
 
-				} else {
+				}
+				// om spelaren gissade fel och med lika många bokstäver som ordet
+				else if (gissningen.length() == ord.length()) {
 					// om spelaren inte gissade rätt
 					mellanrum();
 					System.out.println("Du gissade fel!");
 					antalfelgissningar++;
 
+				} else {
+					mellanrum();
+					System.out.println("error");
+					System.out.println("Om du gissar på ordet så måste det vara totalt " + ord.length()
+							+ " bokstäver i gissningen!");
 				}
 
 			}
@@ -560,6 +554,27 @@ public class Hangclass_metoder {
 			System.out.println("error!");
 			System.out.println("skriv in antigen en bokstav eller ett ord!");
 		}
+
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param ord , ett ord som bara ska vara bokstäver
+	 * @return om det bara är bokstäver så blir return false och annars true
+	 */
+	public static boolean intebokstäver(String ord) {
+		// gör om String till char array för att kolla om det bara är bokstäver
+		char[] gissningsomchar = ord.toCharArray();
+
+		// loopar igenom arrayen och om det inte är en bokstav så blir boolean
+		// ärgissningenintebokstav true
+		for (int i = 0; i < gissningsomchar.length; i++) {
+			if (!Character.isLetter(gissningsomchar[i]) || ord.contains(" ")) {
+				return true;
+			}
+		}
+		return false;
 
 	}
 
@@ -581,6 +596,8 @@ public class Hangclass_metoder {
 					break;
 					//
 				} catch (InputMismatchException e) {
+					mellanrum();
+					System.out.println("error");
 					System.out.println("Skirv in antingen 1 eller 2!");
 					input.next();
 				}
@@ -599,6 +616,8 @@ public class Hangclass_metoder {
 				return val;
 
 			default:
+				mellanrum();
+				System.out.println("error");
 				System.out.println("Skriv in antigen 1 eller 2!");
 
 			}
@@ -612,8 +631,8 @@ public class Hangclass_metoder {
 	 * 
 	 */
 	public static void mellanrum() {
-		// skapar 20 rader
-		for (int i = 0; i < 20; i++) {
+		// skapar 30 rader
+		for (int i = 0; i < 30; i++) {
 			System.out.println("");
 
 		}
@@ -629,8 +648,6 @@ public class Hangclass_metoder {
 		ordet.clear();
 
 		gissadebokstäver.clear();
-
-		String ord = "";
 
 		rättbokstäver = "";
 

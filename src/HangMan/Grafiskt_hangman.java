@@ -3,9 +3,12 @@ package HangMan;
 public class Grafiskt_hangman {
 
 	/**
-	 * 
 	 * I denna klassen finns allt det grafiska som skivs ut till spelaren
-	 * @param tal
+	 * 
+	 * tar in antalet fel gissningar som spelaren har och lägger in de i en switch
+	 * case som printar ut de grafiska
+	 * 
+	 * @param tal, antal felgissningar
 	 */
 	public static void grafiskt(int tal) {
 
