@@ -500,6 +500,7 @@ public class Hangclass_metoder {
 				// om spelet är på engelska så kan man inte gissa på Å,Ä,Ö
 
 				if (gissadebokstäver.contains(gissning) || rättbokstäver.contains(gissningen.toUpperCase())) {
+					mellanrum();
 					System.out.println("Du har redan gissat på " + gissning);
 					return;
 				}
