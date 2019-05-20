@@ -153,7 +153,7 @@ public class Hangclass_metoder {
 				} catch (InputMismatchException e) {
 					mellanrum();
 					System.out.println("error");
-					System.out.println("Skirv in antigen 1 eller 2!");
+					System.out.println("Skriv in antingen 1 eller 2!");
 					input.next();
 				}
 			}
@@ -167,7 +167,7 @@ public class Hangclass_metoder {
 			default:
 				mellanrum();
 				System.out.println("error");
-				System.out.println("Skriv in antigen 1 eller 2!");
+				System.out.println("Skriv in antingen 1 eller 2!");
 
 			}
 		}
@@ -176,7 +176,7 @@ public class Hangclass_metoder {
 
 	/**
 	 * 
-	 * Spelaren får välja vilket språk spelet ska vara på, antigen engelska eller
+	 * Spelaren får välja vilket språk spelet ska vara på, antingen engelska eller
 	 * svenska
 	 * 
 	 * @return 1 eller 2, 1 är svenska och 2 engelska
@@ -226,7 +226,7 @@ public class Hangclass_metoder {
 	}
 
 	/**
-	 * Spelaren får välja svårhetsgrad, antigen lätt, medel eller svår
+	 * Spelaren får välja svårhetsgrad, antingen lätt, medel eller svår
 	 * 
 	 * @return 1-lätt 2-medel 3-svår
 	 */
@@ -247,7 +247,7 @@ public class Hangclass_metoder {
 				} catch (InputMismatchException e) {
 					mellanrum();
 					System.out.println("error");
-					System.out.println("Skriv in antigen 1,2 eller 3!");
+					System.out.println("Skriv in antingen 1,2 eller 3!");
 					input.next();
 				}
 
@@ -275,7 +275,7 @@ public class Hangclass_metoder {
 			default:
 				mellanrum();
 				System.out.println("error");
-				System.out.println("Skriv in antigen 1,2 eller 3!");
+				System.out.println("Skriv in antingen 1,2 eller 3!");
 				break;
 
 			}
@@ -375,7 +375,7 @@ public class Hangclass_metoder {
 						} catch (InputMismatchException e) {
 							mellanrum();
 							System.out.println("error");
-							System.out.println("Skriv in antigen 1 eller 2!");
+							System.out.println("Skriv in antingen 1 eller 2!");
 							input.next();
 						}
 					}
@@ -391,7 +391,7 @@ public class Hangclass_metoder {
 					default:
 						mellanrum();
 						System.out.println("error");
-						System.out.println("Skriv in antigen 1 eller 2!");
+						System.out.println("Skriv in antingen 1 eller 2!");
 
 						// inte siffror i ordet
 
@@ -553,7 +553,7 @@ public class Hangclass_metoder {
 		else {
 			mellanrum();
 			System.out.println("error!");
-			System.out.println("skriv in antigen en bokstav eller ett ord!");
+			System.out.println("skriv in antingen en bokstav eller ett ord!");
 		}
 
 	}
@@ -619,7 +619,7 @@ public class Hangclass_metoder {
 			default:
 				mellanrum();
 				System.out.println("error");
-				System.out.println("Skriv in antigen 1 eller 2!");
+				System.out.println("Skriv in antingen 1 eller 2!");
 
 			}
 		}
@@ -653,6 +653,8 @@ public class Hangclass_metoder {
 		rättbokstäver = "";
 
 		antalfelgissningar = 0;
+		
+		språkengelska = false;
 	}
 
 }
