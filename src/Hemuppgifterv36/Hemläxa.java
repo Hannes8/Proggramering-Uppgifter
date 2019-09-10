@@ -14,7 +14,16 @@ public class Hemläxa {
 		
 		uppgift2();
 		
-	
+		int tal=6; 
+		String ord="potatis";
+		char bokstav='h';
+		double decimaltal=6.9;
+		
+		uppgift3(tal,ord,bokstav,decimaltal);
+		
+		uppgift6();
+		
+		uppgift7(10);
 		
 
 		
@@ -81,14 +90,51 @@ public static void uppgift5() {
 	// 6. Skapa en rekursiv metod som tar in ett ord och skriver ut alla anagram av ordet.*
 	
 	public static void uppgift6() {
-	
+		boolean anagram=false;
+		String ord ="blå";
+		ArrayList <Character>arraychar = new ArrayList<>();
+		ArrayList <String>anagramarray = new ArrayList<>();
 		
+		String [] ordlista = {"hej","potatis","hello","bål",};
+		for (int i = 0; i < ord.length(); i++) {
+			arraychar.add(ord.charAt(i));
+		}
+		// loopar igenom arrayen med ordlistan
+		for (int i = 0; i < ordlista.length; i++) {
+			anagram=true;
+			
+			for (int j = 0; j < ordlista[i].length(); j++) {
+				
+				// om bokstaven i ordlistan inte matchar med ordet eller om ordet och ordlistan är olika långa så blir anagram false
+				if(!arraychar.contains(ordlista[i].charAt(j)) ||  !(ordlista[i].length() == ord.length())) {
+				anagram=false;	
+				}
+				
+			}
+			if (anagram==true) {
+				anagramarray.add(ordlista[i]);
+			}
+			
+		}
+		System.out.println("-6- anagramen till ordet "+ord+" är "+anagramarray);
 		
 	}
 	// 7. Skapa Application som rekursivt ritar ut ett fibonacci-träd.*
 	
 	  
 	public static void uppgift7(int x) {
+		String space="";
+		int iterationer=0;
+		for (int i = 0; i < x; i++) {
+			space="";
+			for (int j = 0; j < x-iterationer; j++) {
+				space+=" ";
+			}
+			iterationer=iterationer+1;
+			
+			System.out.println(space+"x");
+		}
+		
 		
 	}
 
